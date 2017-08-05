@@ -1,0 +1,32 @@
+#include "WavLoader.h"
+
+#include <iostream>
+#include <string>
+
+int main(int argc, const char** argv) {
+
+  WavLoader loader;
+  std::string fileName{"45843__sluzzslazz__vm2-47.wav"};
+
+  bool success;
+
+  std::cout << "Opening file " << fileName << " ...";
+  PosixFileWrapper fileWrapper{fileName};
+  success = loader.open(&fileWrapper);
+
+  if(!success) {
+    std::cout << "[FAILED]" << std::endl;
+    exit(-1);
+  }
+
+  std::cout << "[SUCCESS]" << std::endl;
+  
+  std::cout << "File " << fileName << std::endl
+            << loader.bitsPerSample() << " bits per sample" << std::endl
+            << loader.numChannels() << " channels" << std::endl
+            << loader.sampleRate() << " Hz" << std::endl
+            << loader.numSamples() / ((double)loader.sampleRate() * loader.numChannels()) 
+            << " Seconds"
+            << std::endl;
+  return 0;
+}
