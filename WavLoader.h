@@ -33,12 +33,15 @@ struct __attribute__((packed)) WavHeader
 };
 
 // Needs to work with
-//  open / close AND SD.h
-
+//  open / close AND SdFat.h
 
 class FileWrapper {
  public:
+
  FileWrapper(std::string fileName)
+   : _fileName(fileName){};
+
+ FileWrapper(const char* fileName)
    : _fileName(fileName){};
  
   virtual ~FileWrapper(){};
@@ -154,10 +157,17 @@ class PosixFileWrapper : public FileWrapper {
 #include <SdFat.h>
 
 // Arduino / esp8266 file interface wrapper
+// TODO: get rid of the virtual functions.
+//  We know darn well what kind of object this is.
 class SDFileWrapper : public FileWrapper {
  public:
   SDFileWrapper(std::string fileName)
-    : FileWrapper(fileName), _file()
+    : FileWrapper(fileName)
+  {
+  }
+
+  SDFileWrapper(const char* fileName)
+    : FileWrapper(fileName)
   {
   }
   
