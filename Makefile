@@ -1,8 +1,9 @@
 
 CXX=clang++
-CXXARGS=-g -DUSE_POSIX -std=c++11
+CXXARGS=-g -O0 -DUSE_POSIX -std=c++11 -fsanitize=address
+#CXXARGS=-O2 -DUSE_POSIX -std=c++11
 
-testWavLoader: WavLoader.h WavLoader.cpp test.cpp
+testWavLoader: Makefile AudioStream.h WavLoader.h WavLoader.cpp test.cpp
 	$(CXX) $(CXXARGS) WavLoader.cpp test.cpp -o $@
 
 test: testWavLoader
